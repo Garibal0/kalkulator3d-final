@@ -3,11 +3,10 @@ from firebase_admin import credentials, db
 import os
 import json
 
-# 🔐 Wczytujemy dane klucza z ENV jako JSON (zamiast z pliku!)
 cred_json = os.environ.get("FIREBASE_CREDENTIALS_JSON")
-cred_dict = json.loads(cred_json)
 
-if not firebase_admin._apps:
+if not firebase_admin._apps and cred_json:
+    cred_dict = json.loads(cred_json)
     cred = credentials.Certificate(cred_dict)
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://kalkulator3d-default-rtdb.europe-west1.firebasedatabase.app/'
